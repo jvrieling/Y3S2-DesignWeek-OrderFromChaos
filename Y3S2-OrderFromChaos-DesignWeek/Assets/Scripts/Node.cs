@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //TODO: FMOD refrence to be added!
+    public string musicEvent; 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //Click and drag functionality below!
+    
 }
