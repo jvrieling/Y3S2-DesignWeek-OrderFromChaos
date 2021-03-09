@@ -17,7 +17,7 @@ public class NodeMap : MonoBehaviour
 
     public bool playNodes = false;
 
-    public int currentlyPlayingId;
+    [ReadOnly] public int currentlyPlayingId;
 
     // Start is called before the first frame update
     void Start()
