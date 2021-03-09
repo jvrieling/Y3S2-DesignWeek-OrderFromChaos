@@ -22,13 +22,19 @@ public class NodeMap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 currentPosition = transform.position;
+        Vector3 currentPosition = new Vector3();
         for(int i = 0; i < nodeCount; i++)
         {
-            GameObject temp = Instantiate(nodePrefab, currentPosition, Quaternion.identity);
+            GameObject temp = Instantiate(nodePrefab, transform);
 
             temp.name = "Node " + i;
 
+            RectTransform tempRectTransform = temp.GetComponent<RectTransform>();
+
+            tempRectTransform.localPosition = Vector3.zero;
+
+            tempRectTransform.Translate(currentPosition);
+            
             nodes.Add(temp);
 
             Node tempNode = temp.GetComponent<Node>();

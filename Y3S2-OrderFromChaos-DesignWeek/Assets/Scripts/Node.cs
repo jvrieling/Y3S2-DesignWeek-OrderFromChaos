@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Node : MonoBehaviour
 {
@@ -15,12 +16,12 @@ public class Node : MonoBehaviour
     public Color badColour = Color.red;
 
     AudioSource audioSrc;
-    SpriteRenderer sprtRndr;
+    Image sprtRndr;
 
     private void Awake()
     {
         audioSrc = GetComponent<AudioSource>();
-        sprtRndr = GetComponent<SpriteRenderer>();
+        sprtRndr = GetComponent<Image>();
     }
 
     private void Update()
