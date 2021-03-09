@@ -4,9 +4,40 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    //TODO: FMOD refrence to be added!
-    public string musicEvent; 
+    public bool good = false;
 
-    //Click and drag functionality below!
-    
+    [ReadOnly] public int id;
+
+    public AudioClip badSound;
+    public AudioClip goodSound;
+
+    public Color goodColour = Color.green;
+    public Color badColour = Color.red;
+
+    AudioSource audioSrc;
+    SpriteRenderer sprtRndr;
+
+    private void Awake()
+    {
+        audioSrc = GetComponent<AudioSource>();
+        sprtRndr = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        if (good)
+        {
+            audioSrc.clip = goodSound;
+            sprtRndr.color = goodColour;
+        } else
+        {
+            audioSrc.clip = badSound;
+            sprtRndr.color = badColour;
+        }
+    }
+
+    public void OnMouseDown()
+    {
+        good = !good;
+    }
 }
