@@ -8,6 +8,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     //public int num;
     [SerializeField] private Canvas canvas;
 
+    public int id;
+
     private CanvasGroup group;
     private RectTransform rect;
     private void Awake()
@@ -33,6 +35,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         //slot.Match(num);
+        Debug.Log("dropping");
+        NodeMap.instance.PlaceNote(id, transform.localPosition);
+
         group.blocksRaycasts = true;
     }
     #endregion
