@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class NodeMap : MonoBehaviour
 {
+    public static NodeMap instance;
 
     public List<GameObject> nodes;
 
     public List<AudioClip> goodSounds;
     public List<AudioClip> badSounds;
 
-    public GameObject nodePrefab;
+    //public GameObject nodePrefab;
 
     public float nodeCount = 10;
     public float nodeDistanceBuffer = 1.5f;
@@ -19,10 +20,24 @@ public class NodeMap : MonoBehaviour
 
     [ReadOnly] public int currentlyPlayingId;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 currentPosition = new Vector3();
+        for(int i = 0; i < nodes.Count; i++)
+        {
+            Node tempNode = nodes[i].GetComponent<Node>();
+
+            tempNode.goodSound = goodSounds[i];
+            tempNode.badSound = badSounds[i];
+
+            tempNode.id = i;
+        }
+        /*Vector3 currentPosition = new Vector3();
         for(int i = 0; i < nodeCount; i++)
         {
             GameObject temp = Instantiate(nodePrefab, transform);
@@ -45,7 +60,7 @@ public class NodeMap : MonoBehaviour
             tempNode.id = i;
 
             currentPosition.x += nodeDistanceBuffer;
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -60,8 +75,7 @@ public class NodeMap : MonoBehaviour
     }
 
     public IEnumerator PlayAllNodes()
-    {
-        
+    {        
         currentlyPlayingId = 0;
         foreach(GameObject i in nodes)
         {
@@ -74,5 +88,29 @@ public class NodeMap : MonoBehaviour
             Debug.Log("Done! " + i.name);
             currentlyPlayingId++;
         }
+    }
+
+    public GameObject PlaceNote(int id, Vector2 pos)
+    {
+        foreach (GameObject i in nodes)
+        {
+            if(IsWithinRange(i.transform.localPosition, pos))
+            {
+                Node tempNode = i.GetComponent<Node>();
+
+                if(id == tempNode.id)
+                {
+                    tempNode.good = true;
+                }
+
+                return i;
+            }
+        }
+        return null;
+    }
+
+    private bool IsWithinRange(Vector2 original, Vector2 inQuestion)
+    {
+        return (inQuestion.x < original.x + Node.snapLeeway && inQuestion.x > original.x - Node.snapLeeway && inQuestion.y < original.y + Node.snapLeeway && inQuestion.y > original.y - Node.snapLeeway);
     }
 }
