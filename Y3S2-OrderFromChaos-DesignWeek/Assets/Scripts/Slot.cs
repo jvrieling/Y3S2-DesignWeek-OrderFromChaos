@@ -7,40 +7,39 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler
 {
     public bool good = false;
+    public bool updateColour = false;
 
     public int id;
     public bool contained = false;
 
-    public AudioClip badSound;
-    public AudioClip goodSound;
 
     public Color goodColour = Color.green;
     public Color badColour = Color.red;
 
     public static int snapLeeway = 20;
+    public static int segmentWidth = 70;
 
     public SlotMap map;
 
-    AudioSource audioSrc;
     Image img;
 
     private void Awake()
     {
-        audioSrc = GetComponent<AudioSource>();
         img = GetComponent<Image>();
     }
 
     private void Update()
     {
-        if (good)
+        if (updateColour)
         {
-            audioSrc.clip = goodSound;
-            img.color = goodColour;
-        }
-        else
-        {
-            audioSrc.clip = badSound;
-            img.color = badColour;
+            if (good)
+            {
+                img.color = goodColour;
+            }
+            else
+            {
+                img.color = badColour;
+            }
         }
     }
 
@@ -74,6 +73,17 @@ public class Slot : MonoBehaviour, IDropHandler
 
         Gizmos.DrawLine(origin, end);
 
+
+       
+
+        Gizmos.color = Color.white;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(new Vector3(transform.position.x - segmentWidth, 10000, transform.position.z), new Vector3(transform.position.x - segmentWidth, -10000, transform.position.z));
+        Gizmos.DrawLine(new Vector3(transform.position.x + segmentWidth, 10000, transform.position.z), new Vector3(transform.position.x + segmentWidth, -10000, transform.position.z));
         Gizmos.color = Color.white;
     }
 

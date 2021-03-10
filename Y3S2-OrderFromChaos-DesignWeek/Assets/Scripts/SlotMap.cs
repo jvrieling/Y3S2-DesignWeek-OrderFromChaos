@@ -59,22 +59,34 @@ public class SlotMap : MonoBehaviour
             StartCoroutine(PlayAllNodes());
             playNodes = false;
         }
-
-        //blur.sharedMaterial.SetFloat("_Size", (goodNodes/11)*20);
-        blur.material.SetFloat("_Size", 20 - ((goodNodes / 11) * 20));
+        blur.material.SetFloat("_Size", 50 - ((goodNodes / 11) * 50));
     }
 
     public IEnumerator PlayAllNodes()
     {
         currentlyPlayingId = 0;
+        //Loop through all the slots
         foreach (Slot i in slots)
         {
-            AudioSource temp = i.GetComponent<AudioSource>();
-            temp.Play();
-            do
+            //for each slot, go through the nodes and play the ones within range
+            foreach (Node j in nodes)
             {
-                yield return null;
-            } while (temp.isPlaying);
+                if (IsWithinXRange(j.transform.position.x, i.transform.position.x))
+                {
+                    AudioSource temp = j.GetComponent<AudioSource>();
+                    temp.Play();
+                }
+            }
+
+            //Wait for how long the PROPER sound takes to play
+            yield return new WaitForSeconds(goodSounds[i.id].length);
+
+            //stop all the nodes from playing sound
+            foreach(Node k in nodes)
+            {
+                k.GetComponent<AudioSource>().Stop();
+            }
+
             Debug.Log("Done! " + i.name);
             currentlyPlayingId++;
         }
@@ -105,6 +117,10 @@ public class SlotMap : MonoBehaviour
     private bool IsWithinRange(Vector2 original, Vector2 inQuestion)
     {
         return (inQuestion.x < original.x + Slot.snapLeeway && inQuestion.x > original.x - Slot.snapLeeway && inQuestion.y < original.y + Slot.snapLeeway && inQuestion.y > original.y - Slot.snapLeeway);
+    }
+    private bool IsWithinXRange(float original, float inQuestion)
+    {
+        return (inQuestion < original + Slot.segmentWidth && inQuestion > original - Slot.segmentWidth);
     }
 
     public void PlayNodes()

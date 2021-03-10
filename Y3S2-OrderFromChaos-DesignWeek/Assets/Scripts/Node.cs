@@ -10,9 +10,11 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
 
     public int id;
     public bool canDrag = true;
+    public bool good = false;
 
     public AudioClip badSound;
     public AudioClip goodSound;
+    AudioSource audioSrc;
 
     private CanvasGroup group;
     private RectTransform rect;
@@ -20,7 +22,20 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     {
         rect = GetComponent<RectTransform>();
         group = GetComponent<CanvasGroup>();
+        audioSrc = GetComponent<AudioSource>();
     }
+
+    private void Update()
+    {
+        if (!canDrag)
+        {
+            audioSrc.clip = goodSound;
+        } else
+        {
+            audioSrc.clip = badSound;
+        }
+    }
+
     #region begin
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -47,7 +62,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     #region on click
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("pointerDown");
+
     }
     #endregion
 
