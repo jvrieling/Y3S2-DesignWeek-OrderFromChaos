@@ -7,12 +7,14 @@ public class SlotMap : MonoBehaviour
 {
     public static SlotMap instance;
 
-    public List<GameObject> nodes;
+    public List<Slot> slots;
+    public List<Node> nodes;
+    public bool autoAssignNodeIds = false;
 
     public List<AudioClip> goodSounds;
     public List<AudioClip> badSounds;
 
-    //public GameObject nodePrefab;
+    public bool isAllowed;
 
     public float nodeCount = 10;
     public float nodeDistanceBuffer = 1.5f;
@@ -32,15 +34,20 @@ public class SlotMap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < nodes.Count; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
-            Slot tempNode = nodes[i].GetComponent<Slot>();
+            Slot tempSlot = slots[i];
+            tempSlot.id = i;
+        }
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            Node tempNode = nodes[i];
+
+            if (autoAssignNodeIds) tempNode.id = i;
 
             tempNode.goodSound = goodSounds[i];
             tempNode.badSound = badSounds[i];
-
-            tempNode.id = i;
-        }        
+        }
     }
 
     // Update is called once per frame
@@ -58,9 +65,9 @@ public class SlotMap : MonoBehaviour
     }
 
     public IEnumerator PlayAllNodes()
-    {        
+    {
         currentlyPlayingId = 0;
-        foreach(GameObject i in nodes)
+        foreach (Slot i in slots)
         {
             AudioSource temp = i.GetComponent<AudioSource>();
             temp.Play();
@@ -73,24 +80,26 @@ public class SlotMap : MonoBehaviour
         }
     }
 
-    public GameObject PlaceNote(int id, Vector2 pos)
+    public bool PlaceNote(int id, Vector2 pos)
     {
-        foreach (GameObject i in nodes)
+        foreach (Slot i in slots)
         {
-            if(IsWithinRange(i.transform.localPosition, pos))
+            if (IsWithinRange(i.transform.localPosition, pos))
             {
-                Slot tempNode = i.GetComponent<Slot>();
 
-                if(id == tempNode.id)
+                if (id == i.id)
                 {
-                    tempNode.good = true;
+                    i.good = true;
                     goodNodes++;
+                    return true;
                 }
-
-                return i;
+                else
+                {
+                    return false;
+                }
             }
         }
-        return null;
+        return false;
     }
 
     private bool IsWithinRange(Vector2 original, Vector2 inQuestion)

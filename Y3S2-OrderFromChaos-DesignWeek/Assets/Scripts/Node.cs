@@ -9,6 +9,10 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     [SerializeField] private Canvas canvas;
 
     public int id;
+    public bool canDrag = true;
+
+    public AudioClip badSound;
+    public AudioClip goodSound;
 
     private CanvasGroup group;
     private RectTransform rect;
@@ -20,25 +24,23 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     #region begin
     public void OnBeginDrag(PointerEventData eventData)
     {
-        group.blocksRaycasts = false;
+        if(canDrag) group.blocksRaycasts = false;
     }
     #endregion
 
     #region on drag
     public void OnDrag(PointerEventData eventData)
     {
-        rect.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (canDrag) rect.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
     #endregion
 
     #region end
     public void OnEndDrag(PointerEventData eventData)
     {
-        //slot.Match(num);
-        Debug.Log("dropping");
-        SlotMap.instance.PlaceNote(id, transform.localPosition);
+        if (canDrag) canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
 
-        group.blocksRaycasts = true;
+        if (canDrag) group.blocksRaycasts = true;
     }
     #endregion
 

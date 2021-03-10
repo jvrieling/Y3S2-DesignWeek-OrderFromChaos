@@ -9,6 +9,7 @@ public class Slot : MonoBehaviour, IDropHandler
     public bool good = false;
 
     public int id;
+    public bool contained = false;
 
     public AudioClip badSound;
     public AudioClip goodSound;
@@ -31,8 +32,6 @@ public class Slot : MonoBehaviour, IDropHandler
 
     private void Update()
     {
-
-
         if (good)
         {
             audioSrc.clip = goodSound;
@@ -83,7 +82,15 @@ public class Slot : MonoBehaviour, IDropHandler
 
         if (eventData.pointerDrag != null)
         {
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            if (!contained)
+            {
+                if (eventData.pointerDrag.GetComponent<Node>().id == id)
+                {
+                    eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                    contained = true;
+                }
+            }
+
         }
     }
 }

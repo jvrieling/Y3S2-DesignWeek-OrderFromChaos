@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1179592558802711229}
+  - component: {fileID: 1348810729662909226}
   - component: {fileID: 5685075522763941143}
   - component: {fileID: 5272877866070536505}
-  - component: {fileID: 1348810729662909226}
   - component: {fileID: 8895947192399218744}
   - component: {fileID: 1913370944661713564}
   m_Layer: 5
@@ -40,6 +40,25 @@ RectTransform:
   m_AnchoredPosition: {x: -390.44, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1348810729662909226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9088531931891398348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb1a1994f6c54b4987d27f6b7fc5a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  good: 0
+  id: 0
+  badSound: {fileID: 0}
+  goodSound: {fileID: 0}
+  goodColour: {r: 0, g: 1, b: 0, a: 1}
+  badColour: {r: 0.6792453, g: 0, b: 0, a: 1}
+  map: {fileID: 0}
 --- !u!222 &5685075522763941143
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +86,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2837b70fa60f2d148b5b5a67bba84996, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c3b34732d5fd8b4ba31d095451c62b1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -77,25 +96,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1348810729662909226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9088531931891398348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb1a1994f6c54b4987d27f6b7fc5a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  good: 0
-  id: 0
-  badSound: {fileID: 0}
-  goodSound: {fileID: 8300000, guid: be702bc6700dc914eb7ca0775e241fd4, type: 3}
-  goodColour: {r: 0, g: 1, b: 0, a: 1}
-  badColour: {r: 0.6792453, g: 0, b: 0, a: 1}
-  map: {fileID: 0}
 --- !u!82 &8895947192399218744
 AudioSource:
   m_ObjectHideFlags: 0
