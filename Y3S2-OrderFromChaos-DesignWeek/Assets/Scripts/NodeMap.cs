@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NodeMap : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class NodeMap : MonoBehaviour
 
     public int currentlyPlayingId;
 
+    public float goodNodes;
+    public Image blur;
+
     private void Awake()
     {
         instance = this;
@@ -36,31 +40,7 @@ public class NodeMap : MonoBehaviour
             tempNode.badSound = badSounds[i];
 
             tempNode.id = i;
-        }
-        /*Vector3 currentPosition = new Vector3();
-        for(int i = 0; i < nodeCount; i++)
-        {
-            GameObject temp = Instantiate(nodePrefab, transform);
-
-            temp.name = "Node " + i;
-
-            RectTransform tempRectTransform = temp.GetComponent<RectTransform>();
-
-            tempRectTransform.localPosition = Vector3.zero;
-
-            tempRectTransform.Translate(currentPosition);
-            
-            nodes.Add(temp);
-
-            Node tempNode = temp.GetComponent<Node>();
-
-            tempNode.goodSound = goodSounds[i];
-            tempNode.badSound = badSounds[i];
-
-            tempNode.id = i;
-
-            currentPosition.x += nodeDistanceBuffer;
-        }*/
+        }        
     }
 
     // Update is called once per frame
@@ -72,6 +52,9 @@ public class NodeMap : MonoBehaviour
             StartCoroutine(PlayAllNodes());
             playNodes = false;
         }
+
+        //blur.sharedMaterial.SetFloat("_Size", (goodNodes/11)*20);
+        blur.material.SetFloat("_Size", 20 - ((goodNodes / 11) * 20));
     }
 
     public IEnumerator PlayAllNodes()
@@ -101,6 +84,7 @@ public class NodeMap : MonoBehaviour
                 if(id == tempNode.id)
                 {
                     tempNode.good = true;
+                    goodNodes++;
                 }
 
                 return i;
@@ -112,5 +96,10 @@ public class NodeMap : MonoBehaviour
     private bool IsWithinRange(Vector2 original, Vector2 inQuestion)
     {
         return (inQuestion.x < original.x + Node.snapLeeway && inQuestion.x > original.x - Node.snapLeeway && inQuestion.y < original.y + Node.snapLeeway && inQuestion.y > original.y - Node.snapLeeway);
+    }
+
+    private void OnDisable()
+    {
+        blur.material.SetFloat("_Size", 0);
     }
 }
