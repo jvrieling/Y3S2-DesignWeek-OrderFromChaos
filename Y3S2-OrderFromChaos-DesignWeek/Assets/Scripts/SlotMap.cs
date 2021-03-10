@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NodeMap : MonoBehaviour
+public class SlotMap : MonoBehaviour
 {
-    public static NodeMap instance;
+    public static SlotMap instance;
 
     public List<GameObject> nodes;
 
@@ -34,7 +34,7 @@ public class NodeMap : MonoBehaviour
     {
         for(int i = 0; i < nodes.Count; i++)
         {
-            Node tempNode = nodes[i].GetComponent<Node>();
+            Slot tempNode = nodes[i].GetComponent<Slot>();
 
             tempNode.goodSound = goodSounds[i];
             tempNode.badSound = badSounds[i];
@@ -79,7 +79,7 @@ public class NodeMap : MonoBehaviour
         {
             if(IsWithinRange(i.transform.localPosition, pos))
             {
-                Node tempNode = i.GetComponent<Node>();
+                Slot tempNode = i.GetComponent<Slot>();
 
                 if(id == tempNode.id)
                 {
@@ -95,7 +95,12 @@ public class NodeMap : MonoBehaviour
 
     private bool IsWithinRange(Vector2 original, Vector2 inQuestion)
     {
-        return (inQuestion.x < original.x + Node.snapLeeway && inQuestion.x > original.x - Node.snapLeeway && inQuestion.y < original.y + Node.snapLeeway && inQuestion.y > original.y - Node.snapLeeway);
+        return (inQuestion.x < original.x + Slot.snapLeeway && inQuestion.x > original.x - Slot.snapLeeway && inQuestion.y < original.y + Slot.snapLeeway && inQuestion.y > original.y - Slot.snapLeeway);
+    }
+
+    public void PlayNodes()
+    {
+        playNodes = true;
     }
 
     private void OnDisable()
