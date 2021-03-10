@@ -7,7 +7,7 @@ public class Node : MonoBehaviour
 {
     public bool good = false;
 
-    [ReadOnly] public int id;
+    public int id;
 
     public AudioClip badSound;
     public AudioClip goodSound;

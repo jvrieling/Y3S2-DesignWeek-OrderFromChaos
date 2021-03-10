@@ -18,7 +18,7 @@ public class NodeMap : MonoBehaviour
 
     public bool playNodes = false;
 
-    [ReadOnly] public int currentlyPlayingId;
+    public int currentlyPlayingId;
 
     private void Awake()
     {
