@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IDropHandler
     public Color goodColour = Color.green;
     public Color badColour = Color.red;
 
-    public static int snapLeeway = 20;
+    public static int snapLeeway = 15;
     public static int segmentWidth = 70;
 
     public SlotMap map;
@@ -39,6 +39,17 @@ public class Slot : MonoBehaviour, IDropHandler
             else
             {
                 img.color = badColour;
+            }
+        }
+
+        foreach(Node i in SlotMap.instance.nodes)
+        {
+            if(IsWithinRange(transform.position, i.transform.position))
+            {
+                contained = true;
+            } else
+            {
+                contained = false;
             }
         }
     }
@@ -74,7 +85,7 @@ public class Slot : MonoBehaviour, IDropHandler
         Gizmos.DrawLine(origin, end);
 
 
-       
+
 
         Gizmos.color = Color.white;
     }
@@ -94,11 +105,8 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             if (!contained)
             {
-                if (eventData.pointerDrag.GetComponent<Node>().id == id)
-                {
-                    eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-                    contained = true;
-                }
+                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+                contained = true;
             }
 
         }
