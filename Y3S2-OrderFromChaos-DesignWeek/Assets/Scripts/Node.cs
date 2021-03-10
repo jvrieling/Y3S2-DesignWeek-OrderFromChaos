@@ -16,6 +16,8 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     public AudioClip goodSound;
     AudioSource audioSrc;
 
+    Animator an;
+
     private CanvasGroup group;
     private RectTransform rect;
     private void Awake()
@@ -23,6 +25,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
         rect = GetComponent<RectTransform>();
         group = GetComponent<CanvasGroup>();
         audioSrc = GetComponent<AudioSource>();
+        an = GetComponent<Animator>();
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
         {
             audioSrc.clip = badSound;
         }
+
+        an.SetBool("IsPlaying", audioSrc.isPlaying);
     }
 
     #region begin
