@@ -1,79 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
-public class Node : MonoBehaviour
+using UnityEngine.EventSystems;
+public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    public bool good = false;
+    //private Slot slot;
+    //public int num;
+    [SerializeField] private Canvas canvas;
 
     public int id;
 
-    public AudioClip badSound;
-    public AudioClip goodSound;
-
-    public Color goodColour = Color.green;
-    public Color badColour = Color.red;
-
-    public static int snapLeeway = 20;
-
-    public NodeMap map;
-
-    AudioSource audioSrc;
-    Image img;
-
+    private CanvasGroup group;
+    private RectTransform rect;
     private void Awake()
     {
-        audioSrc = GetComponent<AudioSource>();
-        img = GetComponent<Image>();
+        rect = GetComponent<RectTransform>();
+        group = GetComponent<CanvasGroup>();
     }
-
-    private void Update()
+    #region begin
+    public void OnBeginDrag(PointerEventData eventData)
     {
-
-
-        if (good)
-        {
-            audioSrc.clip = goodSound;
-            img.color = goodColour;
-        }
-        else
-        {
-            audioSrc.clip = badSound;
-            img.color = badColour;
-        }
+        group.blocksRaycasts = false;
     }
+    #endregion
 
-    private bool IsWithinRange(Vector2 original, Vector2 inQuestion)
+    #region on drag
+    public void OnDrag(PointerEventData eventData)
     {
-
-        return (inQuestion.x < original.x + snapLeeway && inQuestion.x > original.x - snapLeeway && inQuestion.y < original.y + snapLeeway && inQuestion.y > original.y - snapLeeway);
+        rect.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
+    #endregion
 
-    private void OnDrawGizmosSelected()
+    #region end
+    public void OnEndDrag(PointerEventData eventData)
     {
-        Gizmos.color = Color.cyan;
+        //slot.Match(num);
+        Debug.Log("dropping");
+        SlotMap.instance.PlaceNote(id, transform.localPosition);
 
-        Vector3 origin = new Vector3(transform.position.x + snapLeeway, transform.position.y + snapLeeway, transform.position.z);
-        Vector3 end = new Vector3(transform.position.x + snapLeeway, transform.position.y - snapLeeway, transform.position.z);
-
-        Gizmos.DrawLine(origin, end);
-
-        origin = new Vector3(transform.position.x - snapLeeway, transform.position.y - snapLeeway, transform.position.z);
-        end = new Vector3(transform.position.x + snapLeeway, transform.position.y - snapLeeway, transform.position.z);
-
-        Gizmos.DrawLine(origin, end);
-
-        origin = new Vector3(transform.position.x + snapLeeway, transform.position.y + snapLeeway, transform.position.z);
-        end = new Vector3(transform.position.x - snapLeeway, transform.position.y + snapLeeway, transform.position.z);
-
-        Gizmos.DrawLine(origin, end);
-
-        origin = new Vector3(transform.position.x - snapLeeway, transform.position.y - snapLeeway, transform.position.z);
-        end = new Vector3(transform.position.x - snapLeeway, transform.position.y + snapLeeway, transform.position.z);
-
-        Gizmos.DrawLine(origin, end);
-
-        Gizmos.color = Color.white;
+        group.blocksRaycasts = true;
     }
+    #endregion
+
+    #region on click
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("pointerDown");
+    }
+    #endregion
+
+
+
 }
