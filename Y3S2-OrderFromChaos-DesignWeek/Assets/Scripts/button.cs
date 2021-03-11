@@ -8,7 +8,7 @@ public class button : MonoBehaviour
     public void playGame()
     {
        
-        SceneManager.LoadScene("sc_Justin_SampleScene");
+        SceneManager.LoadScene("sc_Game");
     }
 
     public void instructions()

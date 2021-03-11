@@ -14,12 +14,15 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
 
     public AudioClip badSound;
     public AudioClip goodSound;
+
+    public AudioClip pickupSound;
+    public AudioClip dropoffSound;
+    
     AudioSource audioSrc;
-
     Animator an;
+    CanvasGroup group;
+    RectTransform rect;
 
-    private CanvasGroup group;
-    private RectTransform rect;
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -44,7 +47,10 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     #region begin
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(canDrag) group.blocksRaycasts = false;
+        if (canDrag) {
+            group.blocksRaycasts = false;
+            audioSrc.PlayOneShot(pickupSound);
+        }
     }
     #endregion
 
@@ -58,9 +64,12 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     #region end
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (canDrag) canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
-
-        if (canDrag) group.blocksRaycasts = true;
+        if (canDrag)
+        {
+            canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
+            group.blocksRaycasts = true;
+            audioSrc.PlayOneShot(dropoffSound);
+        }
     }
     #endregion
 
