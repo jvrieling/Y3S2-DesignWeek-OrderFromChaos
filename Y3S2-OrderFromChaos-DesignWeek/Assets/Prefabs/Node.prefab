@@ -96,6 +96,8 @@ MonoBehaviour:
   good: 0
   badSound: {fileID: 0}
   goodSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 85acf2e8440f1b24bb46a188b26a05ba, type: 3}
+  dropoffSound: {fileID: 8300000, guid: 5d7f6f274a9eb844884c72698dba16e2, type: 3}
 --- !u!225 &1906756706582466283
 CanvasGroup:
   m_ObjectHideFlags: 0
