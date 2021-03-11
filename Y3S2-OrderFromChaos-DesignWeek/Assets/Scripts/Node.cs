@@ -33,7 +33,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
 
     private void Update()
     {
-        if (!canDrag)
+        if (good)
         {
             audioSrc.clip = goodSound;
         } else
@@ -66,7 +66,8 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     {
         if (canDrag)
         {
-            if (AccessibilityOption.accessibilityMode) canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
+            good = !SlotMap.instance.PlaceNote(id, transform.localPosition);
+            if (AccessibilityOption.accessibilityMode) canDrag = good;
             group.blocksRaycasts = true;
             audioSrc.PlayOneShot(dropoffSound);
         }

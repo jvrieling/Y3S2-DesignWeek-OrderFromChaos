@@ -26,6 +26,8 @@ public class SlotMap : MonoBehaviour
     public float goodNodes;
     public Image blur;
 
+    public Marker bar;
+
     private float timer;
 
     private void Awake()
@@ -95,6 +97,8 @@ public class SlotMap : MonoBehaviour
                     temp.Play();
                 }
             }
+
+            bar.StartUpdateMarker(i.transform.position);
 
             //set timer for how long the PROPER sound takes to play
             timer = goodSounds[i.id].length + Time.deltaTime;
