@@ -15,4 +15,8 @@ public class AccessibilityOption : MonoBehaviour
     {
         accessibilityMode = value;
     }
+    public void ToggleAccesibility()
+    {
+        accessibilityMode = !accessibilityMode;
+    }
 }
