@@ -19,4 +19,8 @@ public class button : MonoBehaviour
     {
         SceneManager.LoadScene("sc_Owen_startScreen");
     }
+    public static void WinScreen()
+    {
+        SceneManager.LoadScene("sc_EndingScene");
+    }
 }

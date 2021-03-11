@@ -55,11 +55,23 @@ public class SlotMap : MonoBehaviour
     {
         if (playNodes)
         {
+            
             StopAllCoroutines();
+            //stop all the nodes from playing sound
+            foreach (Node k in nodes)
+            {
+                k.GetComponent<AudioSource>().Stop();
+            }
+
             StartCoroutine(PlayAllNodes());
             playNodes = false;
         }
         blur.material.SetFloat("_Size", 50 - ((goodNodes / 11) * 50));
+
+        if(goodNodes >= nodes.Count)
+        {
+            button.WinScreen();
+        }
     }
 
     public IEnumerator PlayAllNodes()
