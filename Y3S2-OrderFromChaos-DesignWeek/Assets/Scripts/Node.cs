@@ -66,7 +66,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     {
         if (canDrag)
         {
-            canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
+            if (AccessibilityOption.accessibilityMode) canDrag = !SlotMap.instance.PlaceNote(id, transform.localPosition);
             group.blocksRaycasts = true;
             audioSrc.PlayOneShot(dropoffSound);
         }
