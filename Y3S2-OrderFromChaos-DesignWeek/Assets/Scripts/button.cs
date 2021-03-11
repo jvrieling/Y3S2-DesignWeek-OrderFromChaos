@@ -8,7 +8,7 @@ public class button : MonoBehaviour
     public void playGame()
     {
        
-        SceneManager.LoadScene("sc_Justin_SampleScene");
+        SceneManager.LoadScene("sc_Game");
     }
 
     public void instructions()
@@ -18,5 +18,9 @@ public class button : MonoBehaviour
     public void back()
     {
         SceneManager.LoadScene("sc_Owen_startScreen");
+    }
+    public static void WinScreen()
+    {
+        SceneManager.LoadScene("sc_EndingScene");
     }
 }
