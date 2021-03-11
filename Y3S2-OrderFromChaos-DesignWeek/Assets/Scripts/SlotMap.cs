@@ -26,6 +26,10 @@ public class SlotMap : MonoBehaviour
     public float goodNodes;
     public Image blur;
 
+    public Marker bar;
+
+    private float timer;
+
     private void Awake()
     {
         instance = this;
@@ -54,19 +58,21 @@ public class SlotMap : MonoBehaviour
     void Update()
     {
         if (playNodes)
-        {
-            
+        {    
+            //stop all the nodes from playing sound        
             StopAllCoroutines();
-            //stop all the nodes from playing sound
+            
             foreach (Node k in nodes)
             {
                 k.GetComponent<AudioSource>().Stop();
             }
 
+            //Start playing slots
             StartCoroutine(PlayAllNodes());
             playNodes = false;
-        }
-        blur.material.SetFloat("_Size", 50 - ((goodNodes / 11) * 50));
+        }        
+        
+        if(AccessibilityOption.accessibilityMode) blur.material.SetFloat("_Size", 50 - ((goodNodes / 11) * 50));
 
         if(goodNodes >= nodes.Count)
         {
@@ -76,22 +82,36 @@ public class SlotMap : MonoBehaviour
 
     public IEnumerator PlayAllNodes()
     {
-        currentlyPlayingId = 0;
         //Loop through all the slots
-        foreach (Slot i in slots)
-        {
+        for (currentlyPlayingId = 0; currentlyPlayingId < slots.Count; currentlyPlayingId++) { 
+            Slot i = slots[currentlyPlayingId];
+            float maxTimeToPlay = 0;
+
             //for each slot, go through the nodes and play the ones within range
             foreach (Node j in nodes)
             {
                 if (IsWithinXRange(j.transform.position.x, i.transform.position.x))
                 {
                     AudioSource temp = j.GetComponent<AudioSource>();
+                    if (temp.clip.length > maxTimeToPlay) maxTimeToPlay = temp.clip.length; //Set the max time to play to the LONGEST of the nodes in range.
                     temp.Play();
                 }
             }
 
-            //Wait for how long the PROPER sound takes to play
-            yield return new WaitForSeconds(goodSounds[i.id].length);
+            bar.StartUpdateMarker(i.transform.position);
+
+            //set timer for how long the PROPER sound takes to play
+            timer = goodSounds[i.id].length + Time.deltaTime;
+
+            //However, if timer is LONGER than the longest selected node, avoid the empty space and shorten timer to the longest selected node.
+            if (timer > maxTimeToPlay) timer = maxTimeToPlay; 
+
+            //Wait for timer to run out to give time for the clips to play.
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
 
             //stop all the nodes from playing sound
             foreach(Node k in nodes)
@@ -99,8 +119,7 @@ public class SlotMap : MonoBehaviour
                 k.GetComponent<AudioSource>().Stop();
             }
 
-            Debug.Log("Done! " + i.name);
-            currentlyPlayingId++;
+            Debug.Log("Done playing from slot " + i.name + "!");
         }
     }
 
@@ -143,5 +162,15 @@ public class SlotMap : MonoBehaviour
     private void OnDisable()
     {
         blur.material.SetFloat("_Size", 0);
+    }
+
+    public void SkipSlot()
+    {
+        timer = 0;
+    }
+    public void PrevSlot()
+    {
+        currentlyPlayingId -= 2;
+        timer = 0;
     }
 }
