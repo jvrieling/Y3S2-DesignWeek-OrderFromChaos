@@ -8,7 +8,7 @@ public class appearingButtons3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Show(2.0f));
+        StartCoroutine(Show(13.0f));
     }
 
     // Update is called once per frame

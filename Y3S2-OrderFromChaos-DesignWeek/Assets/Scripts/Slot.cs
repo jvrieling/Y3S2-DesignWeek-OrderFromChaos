@@ -21,6 +21,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public SlotMap map;
 
+    public Node containedNode;
+
     Image img;
 
     private void Awake()
@@ -42,14 +44,27 @@ public class Slot : MonoBehaviour, IDropHandler
             }
         }
 
-        foreach(Node i in SlotMap.instance.nodes)
+        foreach (Node i in SlotMap.instance.nodes)
         {
-            if(IsWithinRange(transform.position, i.transform.position))
+            if (IsWithinRange(transform.position, i.transform.position))
             {
-                contained = true;
-            } else
+                if (i.currentlyBeingDragged == false)
+                {
+                    contained = true;
+                    containedNode = i;
+                }
+            }
+            else
             {
                 contained = false;
+                if (containedNode != null)
+                {
+                    if (containedNode.id == i.id && containedNode.id == id)
+                    {
+                        SlotMap.instance.goodNodes--;
+                        containedNode = null;
+                    }
+                }
             }
         }
     }

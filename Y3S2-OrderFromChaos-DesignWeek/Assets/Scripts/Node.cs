@@ -11,6 +11,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     public int id;
     public bool canDrag = true;
     public bool good = false;
+    public bool currentlyBeingDragged = false;
 
     public AudioClip badSound;
     public AudioClip goodSound;
@@ -50,6 +51,7 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
         if (canDrag) {
             group.blocksRaycasts = false;
             audioSrc.PlayOneShot(pickupSound);
+            currentlyBeingDragged = true;
         }
     }
     #endregion
@@ -66,10 +68,11 @@ public class Node : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndD
     {
         if (canDrag)
         {
-            good = !SlotMap.instance.PlaceNote(id, transform.localPosition);
-            if (AccessibilityOption.accessibilityMode) canDrag = good;
+            good = SlotMap.instance.PlaceNote(id, transform.localPosition);
+            if (AccessibilityOption.accessibilityMode) canDrag = !good;
             group.blocksRaycasts = true;
             audioSrc.PlayOneShot(dropoffSound);
+            currentlyBeingDragged = false;
         }
     }
     #endregion

@@ -2841,12 +2841,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_ReferenceResolution: {x: 960, y: 540}
+  m_ScreenMatchMode: 2
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3082,7 +3082,7 @@ MonoBehaviour:
   nodeDistanceBuffer: 120
   playNodes: 0
   currentlyPlayingId: 0
-  goodNodes: 0
+  goodNodes: 1
   blur: {fileID: 159268224}
   bar: {fileID: 1709511097}
 --- !u!224 &893112031
@@ -4302,9 +4302,19 @@ PrefabInstance:
       objectReference: {fileID: 893112030}
     - target: {fileID: 1348810729662909226, guid: ae848096d690577428e1c115e9ee97b6,
         type: 3}
+      propertyPath: good
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348810729662909226, guid: ae848096d690577428e1c115e9ee97b6,
+        type: 3}
       propertyPath: snapLeeway
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 1348810729662909226, guid: ae848096d690577428e1c115e9ee97b6,
+        type: 3}
+      propertyPath: containedNode
+      value: 
+      objectReference: {fileID: 1337135685}
     - target: {fileID: 9088531931891398348, guid: ae848096d690577428e1c115e9ee97b6,
         type: 3}
       propertyPath: m_Name
@@ -4918,12 +4928,12 @@ PrefabInstance:
     - target: {fileID: 1906756706582466263, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 318
+      value: -268
       objectReference: {fileID: 0}
     - target: {fileID: 1906756706582466263, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 218
+      value: 30.221008
       objectReference: {fileID: 0}
     - target: {fileID: 1906756706582466263, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
         type: 3}
@@ -4947,9 +4957,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1906756706582466280, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
         type: 3}
+      propertyPath: good
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1906756706582466280, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
+        type: 3}
       propertyPath: canvas
       value: 
       objectReference: {fileID: 803246550}
+    - target: {fileID: 1906756706582466280, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
+        type: 3}
+      propertyPath: canDrag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1906756706582466281, guid: 022d3c0d8db58ba48a5b942d1dfff1b6,
         type: 3}
       propertyPath: m_Sprite
